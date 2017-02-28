@@ -20,7 +20,7 @@ AV.init({
 
 // 每个 Vue.js 应用都是通过构造函数 Vue 创建一个 Vue 的根实例启动的
 var app = new Vue({
-	el: '#app',
+	el: '#app',  // 挂载元素
 	data: {
     newTodo: '',  //表单输入和应用状态中做双向数据绑定
     todoList: [],  //所有待办事项的容器
@@ -39,6 +39,22 @@ var app = new Vue({
     this.fetchTodos();
   },
   methods: {
+    fetchTodos:function(){
+      if(this.currentUser){
+       var query = new AV.Query('AllTodos');
+       // console.log(query)
+       query.find()
+         .then((todos)=> {
+          let avAllTodos = todos[0];
+          let id = avAllTodos.id;
+          this.todoList = JSON.parse(avAllTodos.attributes.content);
+          this.todoList.id=id;
+          console.log(this.todoList.id)         
+         }, function(error){
+           console.error(error) 
+         })
+      }
+    },
     updateTodos: function(){
       let dataString = JSON.stringify(this.todoList) 
       let avTodos = AV.Object.createWithoutData('AllTodos', this.todoList.id)
@@ -60,7 +76,7 @@ var app = new Vue({
       avTodos.setACL(acl) // 设置访问控制
 
       avTodos.save().then((todo)=>{
-        this.items.id=todo.id;
+        this.todoList.id=todo.id;
         console.log("保存成功");
       },function(error){
         console.error("保存失败");
@@ -74,22 +90,7 @@ var app = new Vue({
         this.saveTodos()
       }
     },
-    fetchTodos:function(){
-      if(this.currentUser){
-       var query = new AV.Query('AllTodos');
-       console.log(query)
-       query.find()
-         .then((todos)=> {
-          let avAllTodos = todos[0];
-          let id = avAllTodos.id;
-          this.items = JSON.parse(avAllTodos.attributes.content);
-          this.items.id=id;
-          console.log(this.items.id)         
-         }, function(error){
-           console.error(error) 
-         })
-      }
-    },
+    
 
     addTodo: function(){
       let times=new Date();
