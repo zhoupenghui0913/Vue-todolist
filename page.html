@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=ut<meta charset="UTF-8">
+    <title>基于Vue和Leancloud的todolist</title>
+    <link rel="icon" href="img/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+	<div id="app">
+		<!-- 界面部分 -->
+		<section id="signInAndSignUp" v-if="!currentUser">
+			<img class="logo" src="./img/logo.png" alt="">
+
+			<div class="formType">
+          		<a href="#"  @click.prevent="changeBtn('signup')" :class="{clickColor:isSignColor}">注册</a>
+          		<a href="#"  @click.prevent="changeBtn('login')" :class="{clickColor:isLoginColor}">登入</a>
+        	</div>
+
+			<div class="signUp"  v-if="actionType=='signUp'">
+				<form @submit.prevent="signUp">
+					<div class="formRow">
+						<input type="text" placeholder="Username" v-model="formData.username">
+					</div>
+					<div class="formRow">
+						<input type="password" placeholder="Password" v-model="formData.password">
+					</div>
+					<div class="formActions">
+						<input class="signUpBtn" type="submit" value="注册">
+					</div>
+				</form>
+			</div>
+
+			<div class="login"  v-if="actionType=='login'">
+				<form @submit.prevent="login">
+					<div class="formRow">
+						<input type="text" placeholder="Username" v-model="formData.username">
+					</div>
+					<div class="formRow">
+						<input type="password" placeholder="Password" v-model="formData.password">
+					</div>
+					<div class="formActions">
+						<input class="logInBtn" type="submit" value="登入">
+					</div>
+				</form>
+			</div>
+		</section>
+		
+		<!-- 用户内容部分 -->
+		<section id="todo" v-if="currentUser">
+			<div class="title">你好，{{currentUser.username}}！</div>
+			<div class="logOutBtn"><a href="#" @click.prevent="logOut">登出</a></div>
+
+			<div class="newTask">
+				<input type="text" v-model="newTodo" @keyup.enter="addTodo" placeholder="输入您的待办事项，按回车键">
+			</div>
+
+			<ol class="todos">
+				<li v-for="todo in todoList">
+					<span :class="{finish:todo.done}">{{ todo.title }}</span>
+            		<span>{{ todo.createAt }}</span>
+
+            		<a href='#' @click.prevent='isfinish(todo)' class="btn btn-done">完成</a>
+            		<a href='#' @click.prevent='isdelete(todo)' class="btn btn-delete">删除</a>
+				</li>
+			</ol>
+		</section>
+		
+	</div>
+
+	<script src="bundle.js"></script>
+</body>
+</html>
