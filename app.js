@@ -44,15 +44,15 @@ var app = new Vue({
        var query = new AV.Query('AllTodos');
        // console.log(query)
        query.find()
-         .then((todos)=> {
-          let avAllTodos = todos[0];
-          let id = avAllTodos.id;
-          this.todoList = JSON.parse(avAllTodos.attributes.content);
-          this.todoList.id=id;
-          console.log(this.todoList.id)         
-         }, function(error){
-           console.error(error) 
-         })
+          .then((todos)=> {
+            let avAllTodos = todos[0];
+            let id = avAllTodos.id;
+            this.todoList = JSON.parse(avAllTodos.attributes.content);
+            this.todoList.id=id;
+            console.log(this.todoList.id)         
+          }, function(error){
+            console.error(error) 
+          })
       }
     },
     updateTodos: function(){
@@ -91,7 +91,6 @@ var app = new Vue({
       }
     },
     
-
     addTodo: function(){
       let times=new Date();
       let currentTime=times.getFullYear()+"年"+ (times.getMonth()+1)+"月"+times.getDate()+"日";
