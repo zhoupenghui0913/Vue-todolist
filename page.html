@@ -10,7 +10,7 @@
 <body>
 	<div id="app">
 		<!-- 界面部分 -->
-		<section id="signInAndSignUp" v-if="!currentUser" v-cloak>
+		<section id="signInAndSignUp" v-if="!currentUser">
 			<img class="logo" src="./img/logo.png" alt="">
 
 			<div class="formType">
@@ -48,7 +48,7 @@
 		</section>
 		
 		<!-- 用户内容部分 -->
-		<section id="todo" v-if="currentUser" v-cloak>
+		<section id="todo" v-if="currentUser">
 			<div class="title">你好，{{currentUser.username}}！</div>
 			<div class="logOutBtn"><a href="#" @click.prevent="logOut">登出</a></div>
 
